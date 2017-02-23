@@ -35,4 +35,4 @@ phpunit.phar
 /.vagrant
 
 .tags
-.tags_sorted_by-file
+.tags_sorted_by_file
