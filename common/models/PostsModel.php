@@ -3,7 +3,7 @@
 namespace common\models;
 
 use Yii;
-use common\modles\base\BaseModel;;
+use common\models\base\BaseModel;;
 
 /**
  * This is the model class for table "posts".
@@ -61,4 +61,5 @@ class PostsModel extends BaseModel
             'updated_at' => 'Updated At',
         ];
     }
+
 }

@@ -3,6 +3,7 @@ namespace frontend\controllers;
 
 use frontend\controllers\base\BaseController;
 use frontend\models\PostForm;
+use common\models\CatModel;
 
 /**
 *文章控制器
@@ -23,8 +24,11 @@ class PostController extends BaseController
 	public function actionCreate()
 	{
 		$model = new PostForm();
+		//获取所有分类
+		$cat = CatModel::getAllCats();
 		return $this->render('create', [
 		    'model' => $model,
+		    'cat' => $cat,
 		]);
 	}
 }

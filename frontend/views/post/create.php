@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
 	
 			<?= $form->field($model, 'title')->textInput(['maxlengh' => true]); ?>
 			
-			<?= $form->field($model, 'cat_id')->dropDownList(['1' => 'category1', '2' => 'category2']); ?>
+			<?= $form->field($model, 'cat_id')->dropDownList($cat); ?>
 
 			<?= $form->field($model, 'label_img')->textInput(['maxlengh' => true]); ?>
 
@@ -28,6 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
 			<div class="form-group">
 				<?= Html::submitButton("发布", ['class' => 'btn btn-success']); ?>
 			</div>
+
 			<?php ActiveForm::end()?>
 		</div>
 	</div>
