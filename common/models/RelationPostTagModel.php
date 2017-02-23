@@ -33,6 +33,11 @@ class RelationPostTagModel extends BaseModel
         ];
     }
 
+    public function getTag()
+    {
+        return $this->hasOne(TagModel::className(), ['id' => 'tag_id']);
+    }
+
     /**
      * @inheritdoc
      */

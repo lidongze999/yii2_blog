@@ -83,6 +83,7 @@ class PostController extends BaseController
             } else {
                 return $this->redirect(['post/view', 'id' => $model->id]);
             }
+            
         }
         //var_dump($model->getErrors());die;
         //获取所有分类
@@ -91,5 +92,16 @@ class PostController extends BaseController
             'model' => $model,
             'cat'   => $cat,
         ]);
+    }
+
+    /*
+     * 文章详情
+     */
+    public function actionView($id)
+    {
+        $model = new PostForm();
+        $data = $model->getViewById($id);
+
+        return $this->render('view', ['data' => $data]);
     }
 }

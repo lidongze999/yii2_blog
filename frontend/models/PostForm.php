@@ -7,6 +7,7 @@ use Yii;
 use yii\base\Model;
 use yii\db\Query;
 use common\models\RelationPostTagModel;
+use yii\web\NotFoundHttpException;
 
 /**
  *文章表单模型
@@ -99,6 +100,25 @@ class PostForm extends Model
             $this->_lastError = $e->getMessage();
             return false;
         }
+    }
+
+    /*
+     * 截取文章摘要
+     */
+    public function getViewById($id)
+    {
+        $res = PostModel::find()->with('relate.tag')->where(['id' => $id])->asArray()->one();
+        if (!$res) {
+            throw new NotFoundHttpException('文章不存在');
+        }
+        //处理标签格式
+        if (isset($res['relate']) && !empty($res['relate'])) {
+            foreach ($res['relate'] as $list) {
+                $res['tags'][] = $list['tag']['tag_name'];
+            }
+        }
+        unset($res['relate']);
+        return $res;
     }
 
     /**
