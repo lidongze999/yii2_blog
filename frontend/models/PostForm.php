@@ -107,7 +107,7 @@ class PostForm extends Model
      */
     public function getViewById($id)
     {
-        $res = PostModel::find()->with('relate.tag')->where(['id' => $id])->asArray()->one();
+        $res = PostModel::find()->with('relate.tag', 'extend')->where(['id' => $id])->asArray()->one();
         if (!$res) {
             throw new NotFoundHttpException('文章不存在');
         }
