@@ -4,6 +4,7 @@ namespace frontend\controllers;
 use common\models\CatModel;
 use frontend\controllers\base\BaseController;
 use frontend\models\PostForm;
+use Yii;
 
 /**
  *文章控制器
@@ -30,20 +31,31 @@ class PostController extends BaseController
         ];
     }
 
-/**
- *文章列表
- */
+    /**
+     *文章列表
+     */
     public function actionIndex()
     {
         return $this->render('index');
     }
 
-/**
- *创建文章
- */
+    /**
+     *创建文章
+     */
     public function actionCreate()
     {
         $model = new PostForm();
+        //定义场景
+        $model->setScenario(PostForm::SCENARIOS_CREATE);
+        
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            if (!$model->create()) {
+                Yii::$app->session->setFlash('waring', $model->_lastError);
+            } else {
+                return $this->redirect(['post/view', 'id' => $model->id]);
+            }
+        }
+        //var_dump($model->getErrors());die;
         //获取所有分类
         $cat = CatModel::getAllCats();
         return $this->render('create', [
