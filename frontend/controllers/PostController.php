@@ -5,12 +5,41 @@ use common\models\CatModel;
 use frontend\controllers\base\BaseController;
 use frontend\models\PostForm;
 use Yii;
+use yii\filters\AccessControl;
+use yii\filters\VerbFilter;
 
 /**
  *文章控制器
  */
 class PostController extends BaseController
 {
+    public function behaviors()
+    {
+        return [
+            'access' => [
+                'class' => AccessControl::className(),
+                'only'  => ['index', 'create', 'upload', 'ueditor'],
+                'rules' => [
+                    [
+                        'actions' => ['index'],
+                        'allow'   => true,
+                    ],
+                    [
+                        'actions' => ['create', 'upload', 'ueditor'],
+                        'allow'   => true,
+                        'roles'   => ['@'],
+                    ],
+                ],
+            ],
+            'verbs'  => [
+                'class'   => VerbFilter::className(),
+                'actions' => [
+                    '*' => ['get','post'],
+                ],
+            ],
+        ];
+    }
+
     public function actions()
     {
         return [
@@ -47,7 +76,7 @@ class PostController extends BaseController
         $model = new PostForm();
         //定义场景
         $model->setScenario(PostForm::SCENARIOS_CREATE);
-        
+
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
             if (!$model->create()) {
                 Yii::$app->session->setFlash('waring', $model->_lastError);

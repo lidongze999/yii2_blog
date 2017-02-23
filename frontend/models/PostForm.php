@@ -5,6 +5,8 @@ namespace frontend\models;
 use common\models\PostModel;
 use Yii;
 use yii\base\Model;
+use yii\db\Query;
+use common\models\RelationPostTagModel;
 
 /**
  *文章表单模型
@@ -48,13 +50,13 @@ class PostForm extends Model
         return [
             [['id', 'title', 'content', 'cat_id'], 'required'],
             [['id', 'cat_id'], 'integer'],
-            ['title', 'string', 'min' => 4, 'max' => 50],
+            ['title', 'string', 'min' => 3, 'max' => 50],
         ];
     }
 
     /**
-    *创建文章
-    */
+     *创建文章
+     */
     public function attributeLabels()
     {
         return [
@@ -100,33 +102,57 @@ class PostForm extends Model
     }
 
     /**
-    *获取文章摘要
-    */
-    private function _getSummary($s = 0 , $e = 90, $char = 'utf-8')
+     *获取文章摘要
+     */
+    private function _getSummary($s = 0, $e = 90, $char = 'utf-8')
     {
-    	if (empty($this->content)) {
-    		return null;
-    	}
+        if (empty($this->content)) {
+            return null;
+        }
 
-    	return (mb_substr(str_replace('&nbsp;', '', strip_tags($this->content)), $s, $e, $char));
+        return (mb_substr(str_replace('&nbsp;', '', strip_tags($this->content)), $s, $e, $char));
     }
 
     /*
-    *文章创建完成后的事件
-    */
+     *文章创建完成后的事件
+     */
     public function _eventAfterCreate($data)
     {
-    	//添加事件
-    	$this->on(self::EVENT_AFTER_CREATE, [$this, '_eventAddTag'], $data);
-    	//触发事件
-    	$this->trigger(self::EVENT_AFTER_CREATE);
+        //添加事件
+        $this->on(self::EVENT_AFTER_CREATE, [$this, '_eventAddTag'], $data);
+        //触发事件
+        $this->trigger(self::EVENT_AFTER_CREATE);
     }
 
     /**
-    *添加标签
-    */
-    public function _eventAddTag($data)
+     *添加标签
+     */
+    public function _eventAddTag($event)
     {
-    	# code...
+        //保存标签
+        $tag       = new TagForm();
+        $tag->tags = $event->data['tags'];
+        $tagids    = $tag->saveTags();
+
+        //删除原先的关联关系
+        RelationPostTagModel::deleteAll(['post_id' => $event->data['id']]);
+
+        //批量保存
+        if (!empty($tagids)) {
+            foreach ($tagids as $k => $id) {
+                $row[$k]['post_id'] = $this->id;
+                $row[$k]['tag_id']  = $id;
+            }
+            //批量插入
+            $res = (new Query())->createCommand()
+                ->batchInsert(RelationPostTagModel::tableName(), ['post_id', 'tag_id'], $row)
+                ->execute();
+            //返回结果
+            if (!$res) {
+                throw new \Exception("关联关系保存失败");
+            }
+
+        }
+
     }
 }
