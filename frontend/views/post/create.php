@@ -25,13 +25,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
 		    <?= $form->field($model, 'content')->widget('common\widgets\ueditor\Ueditor',[
 		        'options'=>[
-		            'initialFrameHeight' => 400,
+		            'initialFrameHeight' => 300,
 		        ]
 		    ]) ?>
-
-			<?= $form->field($model, 'content')->textInput(['maxlengh' => true]); ?>
-
-			<?= $form->field($model, 'tags')->textInput(['maxlengh' => true]); ?>
+	
+			<?= $form->field($model, 'tags')->widget('common\widgets\tags\TagWidget')?>
 			
 			<div class="form-group">
 				<?= Html::submitButton("发布", ['class' => 'btn btn-success']); ?>
