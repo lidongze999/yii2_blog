@@ -26,6 +26,10 @@ class PostForm extends Model
     const SCENARIOS_CREATE = 'create';
     const SCENARIOS_UPDATE = 'update';
 
+    //定义事件
+    const EVENT_AFTER_CREATE = 'eventAfterCreate';
+    const EVENT_AFTER_UPDATE = 'eventAfterUpdate';
+
     /**
      *场景设置
      */
@@ -80,8 +84,11 @@ class PostForm extends Model
                 throw new \Exception("文章保存失败");
             }
 
+            $this->id = $model->id;
+
             //调用事件
-            $this->_eventAfterCreate();
+            $data = array_merge($this->getAttributes(), $model->getAttributes());
+            $this->_eventAfterCreate($data);
 
             $transaction->commit();
             return true;
@@ -105,9 +112,20 @@ class PostForm extends Model
     }
 
     /*
-    *创建完成后调用的方法
+    *文章创建完成后的事件
     */
-    public function _eventAfterCreate()
+    public function _eventAfterCreate($data)
+    {
+    	//添加事件
+    	$this->on(self::EVENT_AFTER_CREATE, [$this, '_eventAddTag'], $data);
+    	//触发事件
+    	$this->trigger(self::EVENT_AFTER_CREATE);
+    }
+
+    /**
+    *添加标签
+    */
+    public function _eventAddTag($data)
     {
     	# code...
     }
