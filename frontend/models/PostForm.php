@@ -61,14 +61,34 @@ class PostForm extends Model
     public function attributeLabels()
     {
         return [
-            'id'        => '编码',
-            'title'     => '标题',
-            'content'   => '内容',
+            'id' => '编码',
+            'title' => '标题',
+            'content' => '内容',
             'label_img' => '标签图',
-            'tags'      => '标签',
-            'cat_id'    => '分类',
+            'tags' => '标签',
+            'cat_id' => '分类',
         ];
     }
+
+    public function getList($cond, $curPage = 1, $pageSize = 5, $orderBy = ['id' => SORT_DESC])
+    {
+        $model = new PostModel();
+        //查询语句
+        $select = ['id', 'title', 'summary', 'label_img', 'cat_id', 'use_name',
+            'is_valid', 'created_at', 'updated_at'];
+        $query = $model->find()
+            ->select($select)
+            ->where($cond)
+            ->with('relate.tag', 'extend')
+            ->$orderBy($orderBy);
+        //获取分页数据
+        $res = $model->getPages($query, $curPage, $pageSize);
+        //格式化
+        $res['data'] = self::_formatList($res['data']);
+
+        return $res;
+    }
+
 
     public function create()
     {
@@ -77,10 +97,10 @@ class PostForm extends Model
         try {
             $model = new PostModel();
             $model->setAttributes($this->attributes);
-            $model->summary    = $this->_getSummary();
-            $model->user_id    = Yii::$app->user->identity->id;
-            $model->user_name  = Yii::$app->user->identity->username;
-            $model->is_valid   = PostModel::IS_VALID;
+            $model->summary = $this->_getSummary();
+            $model->user_id = Yii::$app->user->identity->id;
+            $model->user_name = Yii::$app->user->identity->username;
+            $model->is_valid = PostModel::IS_VALID;
             $model->created_at = time();
             $model->updated_at = time();
             if (!$model->save()) {
@@ -150,9 +170,9 @@ class PostForm extends Model
     public function _eventAddTag($event)
     {
         //保存标签
-        $tag       = new TagForm();
+        $tag = new TagForm();
         $tag->tags = $event->data['tags'];
-        $tagids    = $tag->saveTags();
+        $tagids = $tag->saveTags();
 
         //删除原先的关联关系
         RelationPostTagModel::deleteAll(['post_id' => $event->data['id']]);
@@ -161,7 +181,7 @@ class PostForm extends Model
         if (!empty($tagids)) {
             foreach ($tagids as $k => $id) {
                 $row[$k]['post_id'] = $this->id;
-                $row[$k]['tag_id']  = $id;
+                $row[$k]['tag_id'] = $id;
             }
             //批量插入
             $res = (new Query())->createCommand()
