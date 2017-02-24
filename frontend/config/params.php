@@ -3,5 +3,7 @@ return [
     'adminEmail' => 'admin@example.com',
     'avatar' =>[
         'small' =>'/statics/images/avatar/small.jpg',
-    ]
+    ],
+    'upload_url' => '',
+    'default_label_img' => '/image/20170223/1487855521131311.jpg',
 ];

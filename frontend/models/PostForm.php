@@ -55,6 +55,8 @@ class PostForm extends Model
         ];
     }
 
+
+
     /**
      *创建文章
      */
@@ -70,17 +72,17 @@ class PostForm extends Model
         ];
     }
 
-    public function getList($cond, $curPage = 1, $pageSize = 5, $orderBy = ['id' => SORT_DESC])
+    public static function getList($cond, $curPage = 1, $pageSize = 5, $orderBy = ['id' => SORT_DESC])
     {
         $model = new PostModel();
         //查询语句
-        $select = ['id', 'title', 'summary', 'label_img', 'cat_id', 'use_name',
+        $select = ['id', 'title', 'summary', 'label_img', 'cat_id', 'user_id', 'user_name',
             'is_valid', 'created_at', 'updated_at'];
         $query = $model->find()
             ->select($select)
             ->where($cond)
             ->with('relate.tag', 'extend')
-            ->$orderBy($orderBy);
+            ->orderBy($orderBy);
         //获取分页数据
         $res = $model->getPages($query, $curPage, $pageSize);
         //格式化
@@ -89,6 +91,25 @@ class PostForm extends Model
         return $res;
     }
 
+    /**
+     * 数据格式化
+     * @param $data
+     * @return string
+     */
+    public static function _formatList($data)
+    {
+        foreach ($data as &$list) {
+            $list['tags'] = [];
+            if (isset($list['relate']) && !empty($list['relate'])) {
+                foreach ($list['relate'] as $value) {
+                    $list['tags'][] = $value['tag']['tag_name'];
+                }
+            }
+            unset($list['relate']);
+        }
+
+        return $data;
+    }
 
     public function create()
     {
