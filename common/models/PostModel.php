@@ -4,6 +4,7 @@ namespace common\models;
 
 use Yii;
 use common\models\base\BaseModel;;
+use common\models\CatModel;
 
 /**
  * This is the model class for table "posts".
@@ -42,6 +43,11 @@ class PostModel extends BaseModel
         return $this->hasOne(PostExtendModel::className(), ['post_id' => 'id']);
     }
 
+    public function getCat()
+    {
+        return $this->hasOne(CatModel::className(), ['id' => 'cat_id']);
+    }
+
     /**
      * @inheritdoc
      */
@@ -61,16 +67,16 @@ class PostModel extends BaseModel
     {
         return [
             'id' => 'ID',
-            'title' => 'Title',
-            'summary' => 'Summary',
-            'content' => 'Content',
-            'label_img' => 'Label Img',
-            'cat_id' => 'Cat ID',
-            'user_id' => 'User ID',
-            'user_name' => 'User Name',
-            'is_valid' => 'Is Valid',
-            'created_at' => 'Created At',
-            'updated_at' => 'Updated At',
+            'title' => '标题',
+            'summary' => '摘要',
+            'content' => '内容',
+            'label_img' => '标签图',
+            'cat_id' => '分类',
+            'user_id' => '用户ID',
+            'user_name' => '用户名',
+            'is_valid' => '状态',
+            'created_at' => '创建时间',
+            'updated_at' => '修改时间',
         ];
     }
 
