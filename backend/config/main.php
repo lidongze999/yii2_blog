@@ -9,6 +9,7 @@ $params = array_merge(
 return [
     'id' => 'app-backend',
     'basePath' => dirname(__DIR__),
+    'language' => 'zh-CN',
     'controllerNamespace' => 'backend\controllers',
     'bootstrap' => ['log'],
     'modules' => [],
@@ -16,11 +17,19 @@ return [
         'request' => [
             'csrfParam' => '_csrf-backend',
         ],
-        'admin' => [
+
+        'user' => [
             'identityClass' => 'common\models\AdminModel',
             'enableAutoLogin' => true,
             'identityCookie' => ['name' => '_identity-backend', 'httpOnly' => true],
         ],
+
+        'urlManager' => [
+            'enablePrettyUrl' =>true,
+            'showScriptName' => false,
+            //'suffix' => '.html',
+        ],
+
         'session' => [
             // this is the name of the session cookie used for login on the backend
             'name' => 'advanced-backend',
