@@ -1,6 +1,8 @@
 <?php
 namespace frontend\controllers;
 
+use common\models\FeedModel;
+use frontend\models\FeedForm;
 use Yii;
 use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
@@ -210,5 +212,21 @@ class SiteController extends BaseController
         return $this->render('resetPassword', [
             'model' => $model,
         ]);
+    }
+
+    /**
+     * 留言板添加
+     * @return string
+     */
+    public function actionAddFeed()
+    {
+        $model = new FeedForm();
+        $model->content = Yii::$app->request->post('content');
+        if ($model->validate()) {
+            if ($model->create()) {
+                return json_encode(['status' => true]);
+            }
+        }
+        return json_encode(['status' => false, 'msg' => '发布失败！']);
     }
 }

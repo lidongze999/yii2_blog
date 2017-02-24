@@ -39,6 +39,7 @@ class BannerWidget extends Widget
     public function run()
     {
         $data['items'] = $this->items;
+
         return $this->render('index', ['data' => $data]);
     }
 }
