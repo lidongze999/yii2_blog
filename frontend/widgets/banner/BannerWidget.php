@@ -15,20 +15,20 @@ class BannerWidget extends Widget
             $this->items = [
                 [
                     'label' => 'demo',
-                    'image_url' => '/statics/images/banner/b_0.png',
+                    'image_url' => \Yii::$app->params['upload_url'].'/statics/images/banner/b_0.png',
                     'url' => ['site/index'],
                     'html' => '',
                     'active' => 'active',
                 ],
                 [
                     'label' => 'demo',
-                    'image_url' => '/statics/images/banner/b_1.png',
+                    'image_url' => \Yii::$app->params['upload_url'].'/statics/images/banner/b_1.png',
                     'url' => ['site/index'],
                     'html' => '',
                 ],
                 [
                     'label' => 'demo',
-                    'image_url' => '/statics/images/banner/b_2.png',
+                    'image_url' => \Yii::$app->params['upload_url'].'/statics/images/banner/b_2.png',
                     'url' => ['site/index'],
                     'html' => '',
                 ],

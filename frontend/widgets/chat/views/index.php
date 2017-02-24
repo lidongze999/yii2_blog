@@ -26,7 +26,7 @@ use yii\helpers\Url;
             <li class="media">
                 <div class="media-left">
                     <a href="#" rel="author" data-oringinal-title="" title="">
-                        <img alt="" class="media-object" src="/statics/images/avatar/small.jpg"/>
+                        <img alt="" class="media-object" src="<?=\Yii::$app->params['upload_url'].'/statics/images/avatar/small.jpg'?>"/>
                     </a>
                 </div>
                 <div class="media-body">
