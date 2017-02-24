@@ -82,7 +82,7 @@ class PostController extends BaseController
             if (!$model->create()) {
                 Yii::$app->session->setFlash('waring', $model->_lastError);
             } else {
-                return $this->redirect(['post/view', 'id' => $model->id]);
+                return $this->redirect(['post/detail', 'id' => $model->id]);
             }
             
         }

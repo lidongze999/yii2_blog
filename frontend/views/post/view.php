@@ -1,5 +1,7 @@
 <?php
 
+use frontend\widgets\hot\HotWidget;
+
 $this->title = $data['title'];
 $this->params['breadcrumbs'][] = ['label' => '文章', 'url' => ['post/index']];
 $this->params['breadcrumbs'][] = $this->title;
@@ -25,6 +27,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
     </div>
     <div class="col-lg-3">
-
+        <!-- 热门浏览 -->
+        <?=HotWidget::widget()?>
     </div>
 </div>

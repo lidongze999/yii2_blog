@@ -2,6 +2,8 @@
 use frontend\widgets\banner\BannerWidget;
 use frontend\widgets\post\PostWidget;
 use frontend\widgets\chat\ChatWidget;
+use frontend\widgets\hot\HotWidget;
+
 $this->title = '博客-首页';
 ?>
 <div class="row">
@@ -15,5 +17,7 @@ $this->title = '博客-首页';
     <div class="col-lg-3">
         <!--留言板组件-->
         <?= ChatWidget::widget() ?>
+        <!--留言板组件-->
+        <?= HotWidget::widget() ?>
     </div>
 </div>

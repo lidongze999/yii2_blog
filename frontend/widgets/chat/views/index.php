@@ -3,6 +3,7 @@
 use yii\helpers\Url;
 
 ?>
+<div class="panel">
 <div class="panel-title box-title">
     <span><strong>只言片语</strong></span>
     <span class="pull-right"><a href="#" class="font-12">更多>></a></span>
@@ -25,7 +26,7 @@ use yii\helpers\Url;
             <li class="media">
                 <div class="media-left">
                     <a href="#" rel="author" data-oringinal-title="" title="">
-                        <img alt="" class="media-object" src="statics/images/avatar/small.jpg"/>
+                        <img alt="" class="media-object" src="/statics/images/avatar/small.jpg"/>
                     </a>
                 </div>
                 <div class="media-body">
@@ -43,5 +44,5 @@ use yii\helpers\Url;
             <?php endforeach; ?>
         </ul>
     <?php endif; ?>
-
+</div>
 </div>
