@@ -98,7 +98,7 @@ class PostController extends BaseController
     /**
      * 文章详情
      */
-    public function actionView($id)
+    public function actionDetail($id)
     {
         $model = new PostForm();
         $data = $model->getViewById($id);
