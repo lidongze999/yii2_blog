@@ -110,7 +110,7 @@ AppAsset::register($this);
                     <li>
                         <div class="btn-group">
                             <button type="button" class="btn btn-logged" data-toggle="dropdown">
-                                <img src="<?=Yii::$app->params['avatar']['small'] ?>" alt="头像">
+                                <img src="<?=Yii::$app->params['upload_url'].Yii::$app->params['avatar']['small'] ?>" alt="头像">
                                 <?=Yii::$app->user->identity->username?>
                                 <span class="caret"></span>
                             </button>
@@ -137,7 +137,7 @@ AppAsset::register($this);
             <div class="media leftpanel-profile">
                 <div class="media-left">
                     <a href="#">
-                        <img src="<?=Yii::$app->params['avatar']['small']?>" alt="" class="media-object img-circle">
+                        <img src="<?=Yii::$app->params['upload_url'].Yii::$app->params['avatar']['small']?>" alt="" class="media-object img-circle">
                     </a>
                 </div>
                 <div class="media-body">
@@ -148,7 +148,7 @@ AppAsset::register($this);
 
             <div class="leftpanel-userinfo collapse" id="loguserinfo">
                 <h5 class="sidebar-title">地址</h5>
-                <address>浙江省杭州市滨江区</address>
+                <address>福建省晋江市</address>
                 <h5 class="sidebar-title">联系方式</h5>
                 <ul class="list-group">
                     <li class="list-group-item">
